@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.71'
+		kotlinVersion = '1.3.11'
 		springBootVersion = '2.1.1.RELEASE'
 	}
 	repositories {
@@ -23,7 +23,10 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'de.project'
 version = '0.0.1-SNAPSHOT'
+
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 compileKotlin {
 	kotlinOptions {
 		freeCompilerArgs = ["-Xjsr305=strict"]
@@ -50,10 +53,13 @@ dependencies {
 	implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
 	runtimeOnly('mysql:mysql-connector-java')
 	runtimeOnly('org.hsqldb:hsqldb')
+
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('org.springframework.security:spring-security-test')
 }
