@@ -15,12 +15,16 @@ data class Transaction(
         @Column(name = "ID")
         var id: Long,
 
-        @ManyToOne(optional = false)
+        @ManyToOne(
+            optional = false,
+            cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
+        )
         @JoinColumn(name = "USER_ID")
         var user: User,
 
         @ManyToOne(
-                optional = false
+            optional = false,
+            cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
         )
         @JoinColumn(name = "CATEGORY_ID")
         var category: Category,

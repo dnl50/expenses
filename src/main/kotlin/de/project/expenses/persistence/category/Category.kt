@@ -13,7 +13,10 @@ data class Category(
     @Column(name = "ID")
     var id: Long,
 
-    @ManyToOne(optional = false)
+    @ManyToOne(
+        optional = false,
+        cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
+    )
     @JoinColumn(name = "USER_ID")
     var user: User,
 

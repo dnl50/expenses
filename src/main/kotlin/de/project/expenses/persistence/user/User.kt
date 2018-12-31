@@ -17,14 +17,14 @@ data class User(
         cascade = [CascadeType.ALL],
         orphanRemoval = true
     )
-    var categories: List<Category>,
+    var categories: MutableList<Category>,
 
     @OneToMany(
         mappedBy = "user",
         cascade = [CascadeType.ALL],
         orphanRemoval = true
     )
-    var transactions: List<Transaction>
+    var transactions: MutableList<Transaction>
 
 ) {
 

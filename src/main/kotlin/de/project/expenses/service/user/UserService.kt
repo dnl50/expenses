@@ -8,4 +8,10 @@ interface UserService {
 
     fun userExistsById(userId: String): Boolean
 
+    fun getAuthenticatedUserId(): String
+
+    fun getAuthenticatedUser(): User
+
+    fun saveUser(user: User): User
+
 }
