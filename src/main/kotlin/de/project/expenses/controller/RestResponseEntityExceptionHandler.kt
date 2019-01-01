@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 class RestResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(value = [NoSuchResourceException::class])
-    protected fun handleConflict(ex: RuntimeException, request: WebRequest): ResponseEntity<Any> {
+    fun handleNoSuchResourceExceptions(ex: RuntimeException, request: WebRequest): ResponseEntity<Any> {
         val body = ResponseBodyWrapper(HttpStatus.NOT_FOUND.value(), ex.message)
 
         return handleExceptionInternal(ex, body,

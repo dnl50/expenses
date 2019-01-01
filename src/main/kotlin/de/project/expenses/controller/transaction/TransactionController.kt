@@ -21,6 +21,13 @@ class TransactionController @Autowired constructor(
 ) {
 
     @PreAuthorize("hasAccessToUser(#userId) || hasRole('admin')")
+    @GetMapping(path = ["/{userId}/transactions"])
+    fun getTransactionsOfUser(@PathVariable userId: String, @SortDefault(sort = ["date"], direction = Sort.Direction.DESC) pageable: Pageable): Page<TransactionDto> {
+        return transactionService.getTransactionsOfUserPageable(userId, pageable)
+                .map { TransactionDto(it, CategoryDto(it.category)) }
+    }
+
+    @PreAuthorize("hasAccessToUser(#userId) || hasRole('admin')")
     @GetMapping(path = ["/{userId}/transactions/{transactionId}"])
     fun getTransactionOfUserById(@PathVariable userId: String, @PathVariable transactionId: Long): TransactionDto {
         val transaction = transactionService.getTransactionOfUserById(userId, transactionId)
@@ -29,19 +36,27 @@ class TransactionController @Autowired constructor(
     }
 
     @PreAuthorize("hasAccessToUser(#userId) || hasRole('admin')")
-    @GetMapping(path = ["/{userId}/transactions"])
-    fun getTransactionsOfUser(@PathVariable userId: String, @SortDefault(sort = ["date"], direction = Sort.Direction.DESC) pageable: Pageable): Page<TransactionDto> {
-        return transactionService.getTransactionsOfUserPageable(userId, pageable)
-                .map { TransactionDto(it, CategoryDto(it.category)) }
+    @PutMapping(path = ["/{userId}/transactions/{transactionId}"])
+    fun updateTransactionOfUserById(@PathVariable userId: String, @PathVariable transactionId: Long, @RequestBody transactionDto: TransactionRequestDto): TransactionDto {
+        val updatedTransaction = transactionService.updateTransactionForUserById(userId, transactionId, transactionDto.categoryId,
+                transactionDto.title ,transactionDto.amount, transactionDto.type, transactionDto.date)
+
+        return TransactionDto(updatedTransaction, CategoryDto(updatedTransaction.category))
     }
 
     @PreAuthorize("hasAccessToUser(#userId) || hasRole('admin')")
     @PostMapping(path = ["/{userId}/transactions"])
     fun createTransactionForUser(@PathVariable userId: String, @RequestBody transactionDto: TransactionRequestDto): TransactionDto {
         val transaction = transactionService.createTransactionForUser(userId, transactionDto.categoryId,
-                transactionDto.amount, transactionDto.type, transactionDto.date)
+                transactionDto.title, transactionDto.amount, transactionDto.type, transactionDto.date)
 
        return TransactionDto(transaction, CategoryDto(transaction.category))
+    }
+
+    @PreAuthorize("hasAccessToUser(#userId) || hasRole('admin')")
+    @DeleteMapping(path = ["/{userId}/transactions/{transactionId}"])
+    fun deleteTransactionOfUser(@PathVariable userId: String, @PathVariable transactionId: Long) {
+        transactionService.deleteTransactionOfUserById(userId, transactionId)
     }
 
 }

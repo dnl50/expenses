@@ -40,8 +40,9 @@ class TransactionTest {
         val amount = 13.37F
         val type =  Transaction.Type.EXPENSE
         val date = LocalDate.now()
+        val title = "Title"
 
-        val transaction = Transaction(transactionId, user, category, amount, type, date)
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
 
         // when
         // then
@@ -55,9 +56,10 @@ class TransactionTest {
         val amount = 13.37F
         val type =  Transaction.Type.EXPENSE
         val date = LocalDate.now()
+        val title = "Title"
 
-        val transaction = Transaction(transactionId, user, category, amount, type, date)
-        val otherTransaction = Transaction(transactionId, user, category, amount, type, date)
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
+        val otherTransaction = Transaction(transactionId, user, category, title, amount, type, date)
 
         // when
         // then
@@ -72,9 +74,10 @@ class TransactionTest {
         val amount = 13.37F
         val type =  Transaction.Type.EXPENSE
         val date = LocalDate.now()
+        val title = "Title"
 
-        val transaction = Transaction(transactionId, user, category, amount, type, date)
-        val otherTransaction = Transaction(otherTransactionId, user, category, amount, type, date)
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
+        val otherTransaction = Transaction(otherTransactionId, user, category, title, amount, type, date)
 
         // when
         // then
@@ -88,9 +91,10 @@ class TransactionTest {
         val amount = 13.37F
         val type =  Transaction.Type.EXPENSE
         val date = LocalDate.now()
+        val title = "Title"
 
-        val transaction = Transaction(transactionId, user, category, amount, type, date)
-        val otherTransaction = Transaction(transactionId, otherUser, category, amount, type, date)
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
+        val otherTransaction = Transaction(transactionId, otherUser, category, title, amount, type, date)
 
         // when
         // then
@@ -104,9 +108,28 @@ class TransactionTest {
         val amount = 13.37F
         val type =  Transaction.Type.EXPENSE
         val date = LocalDate.now()
+        val title = "Title"
 
-        val transaction = Transaction(transactionId, user, category, amount, type, date)
-        val otherTransaction = Transaction(transactionId, user, otherCategory, amount, type, date)
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
+        val otherTransaction = Transaction(transactionId, user, otherCategory, title, amount, type, date)
+
+        // when
+        // then
+        assertThat(transaction).isNotEqualTo(otherTransaction)
+    }
+
+    @Test
+    fun equalsReturnsFalseWhenSameFieldValuesButTitleIsDifferent() {
+        // given
+        val transactionId = 1L
+        val amount = 13.37F
+        val type =  Transaction.Type.EXPENSE
+        val date = LocalDate.now()
+        val title = "Title"
+        val otherTitle = "Other Title"
+
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
+        val otherTransaction = Transaction(transactionId, user, otherCategory, otherTitle, amount, type, date)
 
         // when
         // then
@@ -121,9 +144,10 @@ class TransactionTest {
         val otherAmount = 20F
         val type =  Transaction.Type.EXPENSE
         val date = LocalDate.now()
+        val title = "Title"
 
-        val transaction = Transaction(transactionId, user, category, amount, type, date)
-        val otherTransaction = Transaction(transactionId, user, category, otherAmount, type, date)
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
+        val otherTransaction = Transaction(transactionId, user, category, title, otherAmount, type, date)
 
         // when
         // then
@@ -138,9 +162,10 @@ class TransactionTest {
         val type =  Transaction.Type.EXPENSE
         val otherType = Transaction.Type.INCOME
         val date = LocalDate.now()
+        val title = "Title"
 
-        val transaction = Transaction(transactionId, user, category, amount, type, date)
-        val otherTransaction = Transaction(transactionId, user, category, amount, otherType, date)
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
+        val otherTransaction = Transaction(transactionId, user, category, title, amount, otherType, date)
 
         // when
         // then
@@ -155,9 +180,10 @@ class TransactionTest {
         val type =  Transaction.Type.EXPENSE
         val date = LocalDate.now()
         val otherDate = date.plusDays(1L)
+        val title = "Title"
 
-        val transaction = Transaction(transactionId, user, category, amount, type, date)
-        val otherTransaction = Transaction(transactionId, user, category, amount, type, otherDate)
+        val transaction = Transaction(transactionId, user, category, title, amount, type, date)
+        val otherTransaction = Transaction(transactionId, user, category, title, amount, type, otherDate)
 
         // when
         // then

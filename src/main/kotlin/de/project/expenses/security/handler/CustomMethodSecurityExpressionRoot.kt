@@ -1,11 +1,16 @@
 package de.project.expenses.security.handler
 
+import de.project.expenses.service.user.UserService
 import org.springframework.security.access.expression.SecurityExpressionRoot
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations
 import org.springframework.security.core.Authentication
 
 class CustomMethodSecurityExpressionRoot(
-    private val auth: Authentication
+
+    auth: Authentication,
+
+    private val userService: UserService
+
 ): SecurityExpressionRoot(auth), MethodSecurityExpressionOperations {
 
     private lateinit var returnObj: Any
@@ -37,8 +42,7 @@ class CustomMethodSecurityExpressionRoot(
     // -------- EXPRESSIONS ---------
 
     fun hasAccessToUser(userId: String): Boolean {
-        return true
+        return userService.getAuthenticatedUserId() == userId
     }
-
 
 }

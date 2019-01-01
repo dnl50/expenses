@@ -33,11 +33,12 @@ class TransactionPersistenceTest {
         // given
         val expectedUser = userRepository.findById("User1").orElseThrow()
         val expectedCategory = categoryRepository.findById(1L).orElseThrow()
+        val expectedTitle = "Expected Title"
         val expectedAmount = 13.37F
         val expectedType = Transaction.Type.EXPENSE
         val expectedDate = LocalDate.now()
 
-        val expectedTransaction = Transaction(expectedUser, expectedCategory, expectedAmount, expectedType, expectedDate)
+        val expectedTransaction = Transaction(expectedUser, expectedCategory, expectedTitle, expectedAmount, expectedType, expectedDate)
 
         // when
         val savedTransaction = transactionRepository.save(expectedTransaction)

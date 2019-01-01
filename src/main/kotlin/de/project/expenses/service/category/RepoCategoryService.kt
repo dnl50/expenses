@@ -2,6 +2,7 @@ package de.project.expenses.service.category
 
 import de.project.expenses.persistence.category.Category
 import de.project.expenses.persistence.category.CategoryRepository
+import de.project.expenses.service.category.exceptions.CategoryNotFoundException
 import de.project.expenses.service.user.RepoUserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
@@ -18,12 +19,12 @@ class RepoCategoryService @Autowired constructor(
 
 ) : CategoryService {
 
-    override fun getCategoryById(id: Long): Category {
-        return categoryRepository.findById(id).orElseThrow()
+    override fun getCategoryById(categoryId: Long): Category {
+        return categoryRepository.findById(categoryId).orElseThrow()
     }
 
-    override fun categoryExistsById(id: Long): Boolean {
-        return categoryRepository.existsById(id)
+    override fun categoryExistsById(categoryId: Long): Boolean {
+        return categoryRepository.existsById(categoryId)
     }
 
     override fun getCategoriesOfUser(userId: String, sort: Sort): List<Category> {
@@ -31,9 +32,9 @@ class RepoCategoryService @Autowired constructor(
         return categoryRepository.findAllByUser(user, sort)
     }
 
-    override fun categoryExistsForUserByName(userId: String, name: String): Boolean {
+    override fun getCategoryOfUserById(userId: String, categoryId: Long): Category {
         val user = userService.getUserById(userId)
-        return categoryRepository.existsByUserAndName(user, name)
+        return categoryRepository.findByIdAndUser(categoryId, user).orElseThrow { CategoryNotFoundException(categoryId) }
     }
 
     @Transactional
@@ -45,12 +46,16 @@ class RepoCategoryService @Autowired constructor(
     }
 
     @Transactional
-    override fun saveCategory(category: Category): Category {
-        return categoryRepository.save(category)
+    override fun updateCategoryForUserById(userId: String, categoryId: Long, name: String, hexColor: String): Category {
+        val category = getCategoryOfUserById(userId, categoryId)
+        val updatedCategory = category.copy(name = name, hexColor = hexColor)
+
+        return categoryRepository.save(updatedCategory)
     }
 
-    override fun searchCategoriesForUser(userId: String, exampleCategory: Category): List<Category> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @Transactional
+    override fun saveCategory(category: Category): Category {
+        return categoryRepository.save(category)
     }
 
 }

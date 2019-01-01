@@ -5,18 +5,18 @@ import org.springframework.data.domain.Sort
 
 interface CategoryService {
 
-    fun getCategoryById(id: Long): Category
+    fun getCategoryById(categoryId: Long): Category
 
-    fun categoryExistsById(id: Long): Boolean
+    fun categoryExistsById(categoryId: Long): Boolean
 
     fun getCategoriesOfUser(userId: String, sort: Sort): List<Category>
 
-    fun categoryExistsForUserByName(userId: String, name: String): Boolean
+    fun getCategoryOfUserById(userId: String, categoryId: Long): Category
 
     fun createCategoryForUser(userId: String, name: String, hexColor: String): Category
 
-    fun saveCategory(category: Category): Category
+    fun updateCategoryForUserById(userId: String, categoryId: Long, name: String, hexColor: String): Category
 
-    fun searchCategoriesForUser(userId: String, exampleCategory: Category): List<Category>
+    fun saveCategory(category: Category): Category
 
 }

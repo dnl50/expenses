@@ -41,38 +41,4 @@ class CategoryPersistenceTest {
         assertThat(actualCategory).isEqualTo(expectedCategory)
     }
 
-    @Test
-    @Sql(scripts = [
-        "classpath:de/project/expenses/persistence/Users.sql",
-        "classpath:de/project/expenses/persistence/Categories.sql"
-    ])
-    fun existsByUserAndNameReturnsTrueWhenCategoryWithGivenUserAndNameExists() {
-        // given
-        val user = userRepository.findById("User2").orElseThrow()
-        val name = "C1"
-
-        // when
-        val actualExists = categoryRepository.existsByUserAndName(user, name)
-
-        // then
-        assertThat(actualExists).isTrue()
-    }
-
-    @Test
-    @Sql(scripts = [
-        "classpath:de/project/expenses/persistence/Users.sql",
-        "classpath:de/project/expenses/persistence/Categories.sql"
-    ])
-    fun existsByUserAndNameReturnsFalseWhenCategoryWithGivenUserAndNameDoesNotExist() {
-        // given
-        val user = userRepository.findById("User1").orElseThrow()
-        val name = "C3"
-
-        // when
-        val actualExists = categoryRepository.existsByUserAndName(user, name)
-
-        // then
-        assertThat(actualExists).isFalse()
-    }
-
 }

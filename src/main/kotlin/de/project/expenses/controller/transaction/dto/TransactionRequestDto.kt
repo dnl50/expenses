@@ -7,6 +7,8 @@ data class TransactionRequestDto(
 
     val categoryId: Long,
 
+    val title: String,
+
     val amount: Float,
 
     val type: Transaction.Type,

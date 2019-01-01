@@ -31,4 +31,10 @@ class CategoryController @Autowired constructor(
         return CategoryDto(categoryService.createCategoryForUser(userId, categoryDto.name, categoryDto.hexColor))
     }
 
+    @PreAuthorize("hasAccessToUser(#userId)")
+    @PutMapping(path = ["/{userId}/categories/{categoryId}"])
+    fun updateCategoryOfUser(@PathVariable userId: String, @PathVariable categoryId: Long, @Valid @RequestBody categoryDto: CategoryRequestDto): CategoryDto {
+        return CategoryDto(categoryService.updateCategoryForUserById(userId, categoryId, categoryDto.name, categoryDto.hexColor))
+    }
+
 }

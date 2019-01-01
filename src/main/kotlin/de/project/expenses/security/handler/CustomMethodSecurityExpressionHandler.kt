@@ -14,7 +14,7 @@ class CustomMethodSecurityExpressionHandler @Autowired constructor(
 ) : DefaultMethodSecurityExpressionHandler() {
 
     override fun createSecurityExpressionRoot(authentication: Authentication?, invocation: MethodInvocation?): MethodSecurityExpressionOperations {
-        val root = CustomMethodSecurityExpressionRoot(authentication!!)
+        val root = CustomMethodSecurityExpressionRoot(authentication!!, userService)
 
         root.setPermissionEvaluator(permissionEvaluator)
         root.setTrustResolver(trustResolver)

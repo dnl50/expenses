@@ -12,6 +12,8 @@ data class TransactionDto(
 
     val category: CategoryDto,
 
+    val title: String,
+
     val amount: Float,
 
     val type: Transaction.Type,
@@ -21,6 +23,6 @@ data class TransactionDto(
 ) {
 
     constructor(transaction: Transaction, categoryDto: CategoryDto) : this(transaction.id, transaction.user.id,
-            categoryDto, transaction.amount, transaction.type, transaction.date)
+            categoryDto, transaction.title, transaction.amount, transaction.type, transaction.date)
 
 }

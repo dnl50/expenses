@@ -60,13 +60,26 @@ class RepoTransactionService @Autowired constructor(
     }
 
     @Transactional
-    override fun deleteTransaction(transaction: Transaction) {
-        transactionRepository.delete(transaction)
+    override fun updateTransactionForUserById(userId: String, transactionId: Long, categoryId: Long, title: String, amount: Float, type: Transaction.Type, date: LocalDate): Transaction {
+        val category = categoryService.getCategoryOfUserById(userId, categoryId)
+        val transaction = getTransactionOfUserById(userId, transactionId)
+        val updatedTransaction = transaction.copy(category = category, title = title, amount = amount, type = type, date = date)
+
+        return saveTransaction(updatedTransaction)
     }
 
     @Transactional
-    override fun deleteTransactionById(transactionId: Long) {
-        val transaction = getTransactionById(transactionId)
+    override fun createTransactionForUser(userId: String, categoryId: Long, title: String, amount: Float, type: Transaction.Type, date: LocalDate): Transaction {
+        val category = categoryService.getCategoryById(categoryId)
+        val user = userService.getUserById(userId)
+        val transaction = Transaction(user, category, title, amount, type, date)
+
+        return saveTransaction(transaction)
+    }
+
+    @Transactional
+    override fun deleteTransactionOfUserById(userId: String, transactionId: Long) {
+        val transaction = getTransactionOfUserById(userId, transactionId)
         deleteTransaction(transaction)
     }
 
@@ -76,12 +89,8 @@ class RepoTransactionService @Autowired constructor(
     }
 
     @Transactional
-    override fun createTransactionForUser(userId: String, categoryId: Long, amount: Float, type: Transaction.Type, date: LocalDate): Transaction {
-        val user = userService.getUserById(userId)
-        val category = categoryService.getCategoryById(categoryId)
-        val transaction = Transaction(user, category, amount, type, date)
-
-        return transactionRepository.save(transaction)
+    override fun deleteTransaction(transaction: Transaction) {
+        transactionRepository.delete(transaction)
     }
 
 }

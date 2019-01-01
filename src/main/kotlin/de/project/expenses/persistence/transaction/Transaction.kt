@@ -29,6 +29,9 @@ data class Transaction(
         @JoinColumn(name = "CATEGORY_ID")
         var category: Category,
 
+        @Column(name = "TITLE")
+        var title: String,
+
         @Column(name = "AMOUNT")
         var amount: Float,
 
@@ -40,13 +43,14 @@ data class Transaction(
 
 ) {
 
-    constructor(user: User, category: Category, amount: Float, type: Type, date: LocalDate) : this(0L, user, category, amount, type, date)
+    constructor(user: User, category: Category, title: String, amount: Float, type: Type, date: LocalDate) : this(0L, user, category, title, amount, type, date)
 
     override fun equals(other: Any?): Boolean {
         if(other is Transaction) {
             return Objects.equals(this.id, other.id) &&
                     Objects.equals(this.user.id, other.user.id) &&
                     Objects.equals(this.category, other.category) &&
+                    Objects.equals(this.title, other.title) &&
                     Objects.equals(this.amount, other.amount) &&
                     Objects.equals(this.type, other.type) &&
                     Objects.equals(this.date, other.date)
@@ -56,13 +60,14 @@ data class Transaction(
     }
 
     override fun toString(): String {
-        return "User(id=$id, user id=${user.id}, category=$category, amount=$amount, type=$type, date=$date)"
+        return "User(id=$id, user id=${user.id}, category=$category, title=$title, amount=$amount, type=$type, date=$date)"
     }
 
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + user.id.hashCode()
         result = 31 * result + category.hashCode()
+        result = 31 * result + title.hashCode()
         result = 31 * result + amount.hashCode()
         result = 31 * result + type.hashCode()
         result = 31 * result + date.hashCode()

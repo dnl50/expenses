@@ -16,12 +16,14 @@ interface TransactionService {
 
     fun getTransactionsOfUser(userId: String, sort: Sort): List<Transaction>
 
-    fun deleteTransaction(transaction: Transaction)
+    fun createTransactionForUser(userId: String, categoryId: Long, title: String, amount: Float, type: Transaction.Type, date: LocalDate): Transaction
 
-    fun deleteTransactionById(transactionId: Long)
+    fun updateTransactionForUserById(userId: String, transactionId: Long, categoryId: Long, title: String, amount: Float, type: Transaction.Type, date: LocalDate): Transaction
+
+    fun deleteTransactionOfUserById(userId: String, transactionId: Long)
 
     fun saveTransaction(transaction: Transaction): Transaction
 
-    fun createTransactionForUser(userId: String, categoryId: Long, amount: Float, type: Transaction.Type, date: LocalDate): Transaction
+    fun deleteTransaction(transaction: Transaction)
 
 }
